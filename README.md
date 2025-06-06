@@ -5,97 +5,118 @@
 - **Thành viên 1**: Đỗ Quốc An - 22000067
 - **Thành viên 2**: Phạm Thị Duyên - 22000079
 
+# Phân công công việc:
+- Cả nhóm: Tiền xử lý dữ liệu, Mô hình phân loại
+- Trần Kiều Hạnh: giảm chiều t-SNE, phân cụm K-means.
+- Đỗ Quốc An: giảm chiều PCA, hồi quy Random Forest 
+- Phạm Thị Duyên: phân cụm GMM, hồi quy MLP
+
 ## Mô tả
 
-Thực hiện quy trình phân tích dữ liệu chất lượng không khí từ file `city_day.csv`. Quy trình bao gồm các bước tiền xử lý dữ liệu, giảm chiều dữ liệu bằng PCA và t-SNE, xây dựng và đánh giá các mô hình hồi quy (Random Forest, MLP) để dự đoán chỉ số chất lượng không khí (AQI).
-
-Mã nguồn `code.ipynb` dùng để so sánh các trường hợp khác nhau của Random Forest và MLP đồng thời đánh giá overfit. Trong khi mã nguồn `code2.ipynb` dùng để đánh giá phần dư của hai mô hình
+Thực hiện quy trình phân tích dữ liệu chất lượng không khí từ file `city_day.csv`. Quy trình bao gồm các bước tiền xử lý dữ liệu, giảm chiều dữ liệu bằng PCA và t-SNE, phân cụm dữ liệu K-means và GMM, xây dựng và đánh giá các mô hình hồi quy (Random Forest, MLP) để dự đoán chỉ số chất lượng không khí (AQI). Chuyển bài toán về bài toán phân loại rồi áp dụng mô hình Naive Bayes và mô hình phân loại Random Forest 
 
 ## Dataset
-- **Lấy dữ liệu:** Trước tiên ta cần download file dữ liệu city_day.csv tại link google drive: https://drive.google.com/file/d/1-R9pNlc7VY-78eZK9X12uMn7oshDwfGV/view?usp=drive_link
-- Sau đó, mở file code2.ipynb ở phần đầu tiền xử lý dữ liệu df = pd.read_csv(“...”)  hãy chèn đường dẫn đến file dữ liệu vừa tải
+- **Lấy dữ liệu:** https://drive.google.com/file/d/1e1J6Pg28XHOpBQaH5wpblsP_I1SaqhHg/view?usp=drive_link
 - **Nguồn dữ liệu:** `city_day.csv`
 - **Mô tả:** Dữ liệu chất lượng không khí hàng ngày của các thành phố ở Ấn Độ từ năm 2015 đến 2020. Bao gồm các chỉ số ô nhiễm như PM2.5, PM10, NO, NO2, NOx, NH3, CO, SO2, O3, Benzene, Toluene, Xylene và chỉ số AQI tổng hợp.
 
 ## Báo cáo, Slide và Code
-- **Link drive toàn bộ**: https://drive.google.com/drive/folders/12YnMScIMv5_1CYoJe1vjnFw2u_Fztass?usp=drive_link
-- **Báo cáo**: https://drive.google.com/file/d/19tIzBQXdn1VcPhqaLEB6xFS_aFRdwMno/view?usp=sharing
-- **Slide**: https://drive.google.com/file/d/1lcsIeRYTrKzezkgil28ryKbUTfYdkk97/view?usp=sharing
-- **Mã nguồn code.ipynb**: https://drive.google.com/file/d/1r_p0N0HXrr8AnoM7tgnRZL6JcAzXcN7R/view?usp=sharing
-- **Mã nguồn code2.ipynb**: https://drive.google.com/file/d/18Wfa6jYh9NrleMfFQpGoy3duOsUoAUhO/view?usp=sharing
+- **Link drive toàn bộ**: https://drive.google.com/drive/folders/1BZt0ouKXC2boQEg8O-3FhsrWRk4CrfYV?usp=drive_link
+- **Báo cáo**: https://drive.google.com/file/d/1n5eI8x_Z_EeLOKXo7aaz6amRQ1KuBJm4/view?usp=drive_link
+- **Slide**: https://drive.google.com/file/d/19_w99_BMg4kZdDdm_FqBiuyNLJQQfIBr/view?usp=drive_link
+- **Mã nguồn**: https://drive.google.com/file/d/1kMyraJe_ikRYx9mTsjdMfH8fguY3Ezir/view?usp=drive_link
+Note: Code có thể chạy luôn mà không cần sửa đường dẫn dữ liệu
 
 ## Thư viện cần thiết để chạy file code
 
-Để chạy file code.ipynb và code2.ipynb, bạn cần cài đặt các thư viện Python sau:
+Để chạy file Code_ML.ipynb, bạn cần cài đặt các thư viện Python sau:
 
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn scipy
 ```
 
-## Các bước thực hiện trong file 
+## Công cụ và thư viện sử dụng
+- **Xử lý dữ liệu**: pandas, numpy
+- **Trực quan hóa**: matplotlib, seaborn
+- **Học máy**: scikit-learn
+- **Giảm chiều**: PCA, t-SNE
+- **Phân cụm**: K-means, Gaussian Mixture Model
+- **Hồi quy**: Random Forest, MLP
+- **Phân loại**: Naive Bayes, Random Forest
 
-1.  **Tải và khám phá dữ liệu:**
-    *   Đọc dữ liệu từ file CSV.
-    *   Hiển thị thông tin cơ bản, thống kê mô tả, kiểm tra giá trị thiếu.
+## Quy trình thực hiện
 
-2.  **Tiền xử lý dữ liệu:**
-    *   Chuyển đổi cột `Date` sang định dạng datetime.
-    *   Thêm các cột `Year`, `Month`, `Day`.
-    *   Xử lý giá trị thiếu cho các cột số (sử dụng giá trị trung bình theo thành phố và trung bình toàn cục).
-    *   Xử lý giá trị thiếu cho cột `AQI_Bucket` (ánh xạ từ giá trị `AQI`).
-    *   Phát hiện và xử lý giá trị ngoại lai (sử dụng IQR clipping).
-    *   Chuyển đổi biến hạng mục (`AQI_Bucket`, `City`) sang dạng one-hot encoding.
-    *   Chuẩn hóa các biến số (`MinMaxScaler`).
+### 1. Tiền xử lý dữ liệu
+- **Đọc và khám phá dữ liệu**: Tải dữ liệu từ file CSV, kiểm tra kích thước, kiểu dữ liệu và giá trị thiếu
+- **Xử lý giá trị thiếu**: Điền giá trị thiếu bằng trung bình theo thành phố
+- **Xử lý ngoại lai**: Sử dụng phương pháp IQR để phát hiện và xử lý giá trị ngoại lai
+- **Chuẩn hóa dữ liệu**: Áp dụng MinMaxScaler để chuẩn hóa các biến số về thang đo 0-1
+- **Tạo biến thời gian**: Tách ngày, tháng, năm từ cột Date
 
-3.  **Giảm chiều dữ liệu với PCA:**
-    *   Áp dụng PCA để giữ lại 95% phương sai của dữ liệu.
-    *   Phân tích chi tiết các thành phần chính (phương sai giải thích, trọng số).
-    *   Trực quan hóa dữ liệu sau khi giảm chiều (2D, 3D).
-    *   Phân tích mối quan hệ giữa các thành phần chính và AQI.
+### 2. Phân tích thống kê mô tả
+- Thống kê AQI theo năm và tháng (cả dữ liệu gốc và đã chuẩn hóa)
+- Trực quan hóa xu hướng AQI qua thời gian
+- Tạo heatmap thể hiện mức độ AQI theo tháng và năm
+- So sánh phân phối AQI giữa dữ liệu gốc và đã chuẩn hóa
 
-4.  **Giảm chiều và trực quan hóa với t-SNE:**
-    *   Áp dụng t-SNE để giảm chiều dữ liệu xuống 2 và 3 chiều.
-    *   Trực quan hóa kết quả t-SNE, tô màu theo `AQI_Bucket`.
-    *   Phân tích cấu trúc cụm và mật độ dữ liệu trong không gian t-SNE (sử dụng K-Means).
-    *   Phân tích mối quan hệ giữa biểu diễn t-SNE và AQI.
+### 3. Giảm chiều dữ liệu
+#### 3.1 PCA (Principal Component Analysis)
+- Thực hiện PCA với toàn bộ thành phần
+- Phân tích phương sai giải thích và xác định số thành phần tối ưu
+- Trực quan hóa các cặp thành phần chính
 
-5.  **So sánh hiệu suất dự đoán (PCA vs t-SNE vs Dữ liệu gốc):**
-    *   Huấn luyện mô hình Random Forest trên dữ liệu gốc đã chuẩn hóa, dữ liệu PCA và dữ liệu t-SNE.
-    *   Đánh giá và so sánh hiệu suất (RMSE, MAE, R²) của các mô hình.
+#### 3.2 t-SNE (t-Distributed Stochastic Neighbor Embedding)
+- Áp dụng t-SNE để giảm xuống 2 chiều
+- Phân tích mật độ và phân bố dữ liệu
+- So sánh kết quả với PCA
 
-6.  **So sánh đặc điểm PCA và t-SNE:**
-    *   Trực quan hóa song song kết quả PCA và t-SNE.
-    *   Tổng hợp bảng so sánh các đặc điểm chính của hai phương pháp.
+### 4. Phân cụm (Clustering)
+#### 4.1 K-means
+- Xác định số cụm tối ưu bằng Silhouette Score
+- Thực hiện phân cụm trên dữ liệu gốc, PCA và t-SNE
+- Đánh giá chất lượng phân cụm bằng Davies-Bouldin Index và Calinski-Harabasz Index
+- Trực quan hóa kết quả phân cụm
 
-7.  **Huấn luyện và đánh giá Random Forest với các tỉ lệ phân chia:**
-    *   Thực nghiệm với các tỉ lệ train/validation khác nhau (8:2, 7:3, 6:4) trên dữ liệu gốc, dữ liệu PCA và dữ liệu t-SNE.
-    *   Phân tích kết quả, đánh giá hiệu suất và tầm quan trọng của các đặc trưng.
+#### 4.2 GMM (Gaussian Mixture Model)
+- Sử dụng BIC để chọn số cụm và loại covariance tối ưu
+- So sánh hiệu suất với K-means
+- Phân tích mối quan hệ giữa các cụm và biến đầu ra AQI
 
-8.  **Phân tích phần dư (Residual Analysis) cho Random Forest:**
-    *   Phân tích phân phối phần dư, tương quan với biến đầu vào, và sự thay đổi theo giá trị dự đoán/thực tế.
-    *   Đánh giá tính phù hợp của mô hình Random Forest.
+### 5. Mô hình hồi quy
+#### 5.1 Random Forest Regressor
+- Huấn luyện với các tỉ lệ train:validation khác nhau (8:2, 7:3, 6:4)
+- Thực hiện trên dữ liệu gốc, PCA, t-SNE và kết hợp với phân cụm
+- Đánh giá overfitting bằng cách so sánh hiệu suất trên tập train và validation
+- Phân tích Feature Importance
 
-9.  **Huấn luyện và đánh giá MLP với các tỉ lệ phân chia:**
-    *   Thực nghiệm với các tỉ lệ train/validation khác nhau trên dữ liệu gốc đã chuẩn hóa, dữ liệu PCA và dữ liệu t-SNE.
-    *   Phân tích đường cong học (Learning Curve).
-    *   Phân tích phần dư cho mô hình MLP tốt nhất.
+#### 5.2 MLP (Multi-Layer Perceptron) Regressor
+- Thử nghiệm với các kích thước hidden layer khác nhau
+- Áp dụng regularization để giảm overfitting
+- So sánh hiệu suất với Random Forest
 
-10. **So sánh MLP và Random Forest:**
-    *   Tổng hợp và so sánh hiệu suất, thời gian huấn luyện của hai mô hình trên các cấu hình khác nhau.
+#### 5.3 Phân tích phần dư
+- Tính toán và trực quan hóa phần dư (residuals)
+- Phân tích tương quan giữa phần dư và các đặc trưng đầu vào
+- So sánh phân phối phần dư giữa các cụm
 
-11. **Kết luận:**
-    *   Đưa ra kết luận về hiệu quả của các phương pháp giảm chiều và mô hình hồi quy.
-    *   Đề xuất mô hình và cấu hình tốt nhất cho bài toán.
+### 6. Mô hình phân loại
+#### 6.1 Chuẩn bị dữ liệu phân loại
+- Chia AQI thành 4 khoảng có số lượng mẫu xấp xỉ nhau
+- Tạo nhãn lớp: Thấp, Trung bình, Cao, Rất cao
+- Giảm chiều dữ liệu xuống 1/3 số chiều ban đầu bằng PCA
 
-## Cách chạy
+#### 6.2 Naive Bayes
+- Huấn luyện trên dữ liệu gốc và PCA
+- Đánh giá với các metric: Accuracy, Precision, Recall, F1-score
+- Vẽ ma trận nhầm lẫn (Confusion Matrix)
 
-1.  Đảm bảo bạn đã cài đặt các thư viện cần thiết (xem mục **Thư viện cần thiết**).
-2.  Mở notebook `code.ipynb` và `code2.ipynb` bằng Jupyter Notebook, JupyterLab, VS Code hoặc môi trường tương thích khác.
-3.  Chạy tuần tự các cell code từ trên xuống dưới.
+#### 6.3 Random Forest Classifier
+- So sánh hiệu suất với Naive Bayes
+- Phân tích Feature Importance
+- Đánh giá trên các tỉ lệ chia dữ liệu khác nhau
 
 ## Kết quả chính
-
-- Việc áp dụng PCA giúp cải thiện đáng kể hiệu suất của cả mô hình Random Forest và MLP, đồng thời giảm thời gian huấn luyện.
-- Mô hình Random Forest cho kết quả dự đoán tốt hơn một chút so với MLP trong các thử nghiệm.
-- Tỉ lệ phân chia train:validation 7:3 cho kết quả tối ưu trên cả hai mô hình với dữ liệu PCA.
-- Phân tích phần dư cho thấy cả hai mô hình đều phù hợp với bài toán, không có thiên lệch hệ thống rõ ràng.
+- So sánh hiệu suất các phương pháp giảm chiều
+- Đánh giá tác động của phân cụm lên hiệu suất mô hình
+- Phân tích overfitting và các biện pháp khắc phục
+- So sánh các thuật toán học máy trên cùng một bộ dữ liệu
