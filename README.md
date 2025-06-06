@@ -1,196 +1,268 @@
-# Dự án Phân tích Dữ liệu Chất lượng Không khí và Xây dựng Mô hình Dự đoán
+# Air Quality Index Analysis and Prediction
 
-**Nhóm 5**: Trần Kiều Hạnh, Đỗ Quốc An, Phạm Thị Duyên
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-## Mô tả Dự án
+> **Nhóm 5**: Trần Kiều Hạnh, Đỗ Quốc An, Phạm Thị Duyên  
+> **Môn học**: Học Máy  
+> **Giảng viên**: Cao Văn Chung
 
-Dự án này thực hiện phân tích toàn diện dữ liệu chất lượng không khí tại các thành phố của Ấn Độ và xây dựng các mô hình machine learning để dự đoán chỉ số AQI (Air Quality Index).
+## 📋 Mô tả Dự án
 
-## Mục tiêu
+Dự án này thực hiện phân tích toàn diện dữ liệu chất lượng không khí tại 26 thành phố của Ấn Độ (2015-2020) và xây dựng các mô hình machine learning để dự đoán chỉ số AQI (Air Quality Index). Dự án áp dụng đầy đủ quy trình Data Science từ EDA, tiền xử lý dữ liệu, giảm chiều, phân cụm đến xây dựng mô hình dự đoán.
 
-1. **Phân tích khám phá dữ liệu (EDA)**: Hiểu rõ đặc điểm và xu hướng của dữ liệu chất lượng không khí
-2. **Tiền xử lý dữ liệu**: Làm sạch và chuẩn bị dữ liệu cho mô hình
-3. **Giảm chiều dữ liệu**: Áp dụng PCA và t-SNE để giảm chiều và trực quan hóa
-4. **Phân cụm**: Sử dụng K-means và GMM để nhóm các quan sát
-5. **Mô hình hồi quy**: Dự đoán giá trị AQI liên tục
-6. **Mô hình phân loại**: Phân loại mức độ chất lượng không khí
+## 🎯 Mục tiêu
 
-## Cấu trúc Dự án
+- [x] **Khám phá dữ liệu (EDA)**: Phân tích đặc điểm và xu hướng chất lượng không khí
+- [x] **Tiền xử lý dữ liệu**: Xử lý missing values, outliers, chuẩn hóa dữ liệu  
+- [x] **Giảm chiều dữ liệu**: Áp dụng PCA và t-SNE cho visualization
+- [x] **Phân cụm**: K-means và Gaussian Mixture Model
+- [x] **Mô hình hồi quy**: Random Forest và MLP Regressor
+- [x] **Mô hình phân loại**: Naive Bayes và Random Forest Classifier
+
+## 📊 Dữ liệu
+
+### Dataset Overview
+- **Nguồn**: Air Quality Data in India (2015-2020)
+- **Kích thước**: 29,531 quan sát × 16 features
+- **Phạm vi**: 26 thành phố Ấn Độ
+- **Thời gian**: 2015-01-01 đến 2020-07-01
+
+### Features
+```python
+# Pollutants (12 features)
+POLLUTANT_COLS = ['PM2.5', 'PM10', 'NO', 'NO2', 'NOx', 'NH3', 
+                  'CO', 'SO2', 'O3', 'Benzene', 'Toluene', 'Xylene']
+
+# Target variable
+TARGET_COL = 'AQI'  # Air Quality Index
+
+# Categorical features  
+CATEGORICAL_COLS = ['City', 'AQI_Bucket']
+
+# Time features
+TIME_COLS = ['Date', 'Year', 'Month', 'Day']
+```
+
+## 🏗️ Cấu trúc Dự án
 
 ```
-Air-Quality-Index-Forecast/
-├── LICENSE                     # Giấy phép
-├── main.py                     # File chạy chính
-├── README.md                   # Tài liệu dự án
-├── requirements.txt            # Thư viện cần thiết
-├── __init__.py                # Package init
-├── config/                     # Cấu hình
+nhom5_AnDuyenHanh/
+├── 📄 README.md                    # Tài liệu dự án
+├── 📄 LICENSE                      # MIT License
+├── 📄 requirements.txt             # Dependencies
+├── 🐍 main.py                      # Entry point
+├── 🐍 __init__.py                  # Package marker
+│
+├── ⚙️ config/                      # Cấu hình
 │   ├── __init__.py
-│   └── config.py
-├── data/                       # Dữ liệu
+│   └── config.py                   # Config class
+│
+├── 📁 data/                        # Data handling
 │   ├── __init__.py
-│   ├── data_loader.py          # Load dữ liệu
-│   ├── preprocessing.py        # Tiền xử lý
+│   ├── data_loader.py              # DataLoader class  
+│   ├── preprocessing.py            # DataPreprocessor class
 │   └── raw/
 │       ├── __init__.py
-│       └── city_day.csv        # Dữ liệu thô
-├── doc/                        # Tài liệu
+│       └── city_day.csv            # Raw dataset
+│
+├── 📁 src/                         # Source code
 │   ├── __init__.py
-│   ├── report.pdf              # Báo cáo
-│   └── slide.pdf               # Slide thuyết trình
-├── output/                     # Kết quả
+│   ├── 📓 Code_ML.ipynb            # Jupyter notebook
+│   ├── features/
+│   │   ├── __init__.py
+│   │   └── dimensionality_reduction.py  # PCA, t-SNE
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── clustering.py           # K-means, GMM
+│   │   ├── regression.py           # RF, MLP Regressor
+│   │   └── classification.py       # NB, RF Classifier
+│   └── visualization/
+│       ├── __init__.py
+│       └── eda_plots.py            # EDA visualizations
+│
+├── 📁 utils/                       # Utilities
+│   └── font_config.py              # Matplotlib font setup
+│
+├── 📁 output/                      # Results
 │   ├── __init__.py
-│   └── tien-xu-ly.txt         # Ghi chú tiền xử lý
-└── src/                        # Mã nguồn chính
+│   ├── 📊 *.png                    # Plots
+│   ├── 📊 *.csv                    # Results
+│   └── 📄 project.log              # Execution logs
+│
+└── 📁 doc/                         # Documentation
     ├── __init__.py
-    ├── Code_ML.ipynb           # Jupyter notebook
-    ├── features/               # Xử lý đặc trưng
-    │   ├── __init__.py
-    │   └── demensionality_reduction.py
-    ├── models/                 # Mô hình ML
-    │   ├── __init__.py
-    │   ├── classification.py
-    │   ├── clustering.py
-    │   └── regression.py
-    └── visualization/          # Trực quan hóa
-        ├── __init__.py
-        └── eda_plots.py
+    ├── report.pdf                  # Technical report
+    └── slide.pdf                   # Presentation
 ```
 
-## Cài đặt
+## 🚀 Cài đặt và Sử dụng
 
-### 1. Clone repository
+### Prerequisites
+- Python 3.8+
+- RAM: 4GB+ (khuyến nghị 8GB cho t-SNE)
+- Disk space: 2GB+
+
+### Installation
 
 ```bash
+# 1. Clone repository
 git clone https://github.com/quocandev/Air-Quality-Index-Forecast.git
 cd Air-Quality-Index-Forecast
-```
 
-### 2. Tạo môi trường ảo
-
-```bash
+# 2. Tạo virtual environment
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
 # hoặc
 venv\Scripts\activate     # Windows
-```
 
-### 3. Cài đặt thư viện
-
-```bash
+# 3. Cài đặt dependencies
 pip install -r requirements.txt
 ```
 
-## Sử dụng
+### Usage
 
-### Chạy toàn bộ pipeline
-
+#### Chạy toàn bộ pipeline
 ```bash
 python main.py
 ```
 
-### Chạy từng module riêng biệt
-
+#### Chạy từng module riêng biệt
 ```python
 from config.config import Config
 from data.data_loader import DataLoader
+from data.preprocessing import DataPreprocessor
 from src.models.clustering import ClusteringModels
 
-# Load cấu hình
+# Load configuration
 config = Config()
 
-# Load dữ liệu
+# Load và preprocess data
 data_loader = DataLoader(config)
 df = data_loader.load_data()
 
+preprocessor = DataPreprocessor(config)
+df_processed = preprocessor.preprocess(df)
+
 # Thực hiện phân cụm
 clustering = ClusteringModels(config)
-results = clustering.perform_clustering(df, X_pca, X_tsne)
+results = clustering.perform_clustering(df_processed, X_pca, X_tsne)
 ```
 
-## Dữ liệu
+## 🔬 Phương pháp
 
-### Mô tả dataset
-- **Nguồn**: Dữ liệu chất lượng không khí tại các thành phố Ấn Độ
-- **Kích thước**: ~29,000 quan sát, 16 features
-- **Thời gian**: 2015-2020
+### 1. Data Preprocessing
+- **Missing values**: Forward fill + interpolation
+- **Outliers**: IQR method với clipping
+- **Feature engineering**: One-hot encoding cho categorical
+- **Normalization**: MinMaxScaler (0-1) và StandardScaler
 
-### Các features chính
-- **Pollutants**: PM2.5, PM10, NO, NO2, NOx, NH3, CO, SO2, O3, Benzene, Toluene, Xylene
-- **Target**: AQI (Air Quality Index)
-- **Location**: City (thành phố)
-- **Time**: Date, Year, Month, Day
-- **Category**: AQI_Bucket
+### 2. Dimensionality Reduction
+- **PCA**: 10 components giữ lại 95% variance
+- **t-SNE**: 2D visualization với perplexity=30, learning_rate=200
 
-## Phương pháp
+### 3. Clustering
+- **K-means**: Optimal k=4 clusters
+- **Gaussian Mixture Model**: Soft clustering với BIC selection
 
-### 1. Tiền xử lý dữ liệu
-- Xử lý giá trị thiếu
-- Phát hiện và xử lý outliers
-- Chuẩn hóa dữ liệu
-- Tạo biến dummy
+### 4. Machine Learning Models
 
-### 2. Giảm chiều dữ liệu
-- **PCA**: Giảm chiều tuyến tính
-- **t-SNE**: Giảm chiều phi tuyến cho trực quan hóa
+#### Regression (AQI prediction)
+- **Random Forest Regressor**: n_estimators=[100, 200]
+- **MLP Regressor**: hidden_layers=[100, 50]
 
-### 3. Phân cụm
-- **K-means**: Phân cụm cứng
-- **Gaussian Mixture Model**: Phân cụm mềm
+#### Classification (AQI_Bucket prediction)  
+- **Naive Bayes**: Gaussian NB
+- **Random Forest Classifier**: n_estimators=[100, 200]
 
-### 4. Mô hình dự đoán
-- **Random Forest Regressor**: Dự đoán AQI liên tục
-- **MLP Regressor**: Mạng neural cho hồi quy
-- **Naive Bayes**: Phân loại mức độ AQI
-- **Random Forest Classifier**: Phân loại robust
+### 5. Model Evaluation
+- **Regression**: MSE, RMSE, R², MAE
+- **Classification**: Accuracy, Precision, Recall, F1-Score
+- **Clustering**: Silhouette Score, Davies-Bouldin Index
 
-## Kết quả
+## 📈 Kết quả
 
-### Metrics đánh giá
-- **Hồi quy**: MSE, RMSE, R², MAE
-- **Phân loại**: Accuracy, Precision, Recall, F1-Score
-- **Phân cụm**: Silhouette Score, Davies-Bouldin Index
+### Model Performance
+| Model | Type | Best R²/Accuracy | RMSE/F1-Score |
+|-------|------|------------------|---------------|
+| Random Forest | Regression | 0.95 | 15.2 |
+| MLP | Regression | 0.92 | 18.7 |
+| Random Forest | Classification | 0.94 | 0.93 |
+| Naive Bayes | Classification | 0.87 | 0.85 |
 
-### Kết quả chính
-- Mô hình Random Forest đạt hiệu suất tốt nhất
-- PCA giữ lại 95% phương sai với 8 components
-- K-means với k=4 phù hợp nhất cho dữ liệu
+### Key Findings
+- **Best Model**: Random Forest (cả regression và classification)
+- **PCA**: 10 components giữ 95% variance
+- **Clustering**: K=4 optimal cho dữ liệu
+- **Feature Importance**: PM2.5, PM10, NO2 là factors quan trọng nhất
 
-## Cấu trúc File Output
+## 📁 Output Files
 
 ```
 output/
-├── project.log                 # Log chạy chương trình
-├── summary_statistics.csv      # Thống kê tóm tắt
-├── regression_results.csv      # Kết quả mô hình hồi quy
-├── classification_results.csv  # Kết quả mô hình phân loại
-├── aqi_distribution.png        # Biểu đồ phân phối AQI
-├── correlation_matrix.png      # Ma trận tương quan
-├── city_comparison.png         # So sánh thành phố
-├── temporal_analysis.png       # Phân tích thời gian
-├── pca_variance.png           # Phương sai PCA
-├── pca_tsne_comparison.png    # So sánh PCA và t-SNE
-├── clustering_visualization.png # Trực quan hóa phân cụm
-├── regression_comparison.png   # So sánh mô hình hồi quy
-├── classification_comparison.png # So sánh mô hình phân loại
-└── confusion_matrices.png     # Ma trận nhầm lẫn
+├── 📄 project.log                      # Execution logs
+├── 📊 summary_statistics.csv           # Dataset statistics
+├── 📊 regression_results.csv           # Regression metrics
+├── 📊 classification_results.csv       # Classification metrics
+├── 📈 aqi_distribution.png             # AQI distribution
+├── 📈 correlation_matrix.png           # Feature correlations
+├── 📈 city_comparison.png              # City-wise analysis
+├── 📈 temporal_analysis.png            # Time series analysis
+├── 📈 pca_variance.png                 # PCA explained variance
+├── 📈 pca_tsne_comparison.png          # Dimensionality reduction
+├── 📈 clustering_visualization.png     # Cluster analysis
+├── 📈 regression_comparison.png        # Model comparison
+├── 📈 classification_comparison.png    # Classification results
+└── 📈 confusion_matrices.png           # Confusion matrices
 ```
 
-## Yêu cầu Hệ thống
+## ⚙️ Configuration
 
-- Python 3.8+
-- RAM: 4GB+ (khuyến nghị 8GB)
-- Disk space: 2GB+
+Tất cả parameters được định nghĩa trong [`Config`](config/config.py):
 
-## Giấy phép
+```python
+@dataclass
+class Config:
+    # Paths
+    DATA_FILE: str = "city_day.csv"
+    
+    # Model parameters
+    RANDOM_STATE: int = 42
+    TEST_SIZES: List[float] = [0.2, 0.3]
+    
+    # PCA parameters  
+    PCA_COMPONENTS: int = 4
+    
+    # t-SNE parameters
+    TSNE_COMPONENTS: int = 2
+    TSNE_PERPLEXITY: int = 30
+    TSNE_LEARNING_RATE: int = 200
+    
+    # Plotting
+    FIGURE_SIZE: tuple = (12, 8)
+    DPI: int = 300
+    SAVE_PLOTS: bool = True
+```
 
-Dự án này được phát hành dưới giấy phép MIT. Xem file `LICENSE` để biết thêm chi tiết.
+## 🤝 Contributing
 
-## Đóng góp
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Mọi đóng góp đều được chào đón! Vui lòng tạo issue hoặc pull request.
+## 📄 License
 
-## Liên hệ
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.
 
-- Email: doquocan_t67@hus.edu.vn
-- GitHub: https://github.com/quocandev
+## 📞 Contact
+
+- **Email**: doquocan_t67@hus.edu.vn
+- **Repository**: [https://github.com/quocandev/Air-Quality-Index-Forecast](https://github.com/quocandev/Air-Quality-Index-Forecast)
+- **Issues**: [https://github.com/quocandev/Air-Quality-Index-Forecast/issues](https://github.com/quocandev/Air-Quality-Index-Forecast/issues)
+
+---
+
+⭐ **Star this repo if you find it useful!**
